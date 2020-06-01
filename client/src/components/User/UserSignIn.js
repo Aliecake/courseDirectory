@@ -4,7 +4,7 @@ import Form from './Form';
 
 export default class UserSignIn extends Component {
     state = {
-        username: '',
+        emailAddress: '',
         password: '',
         errors: []
     }
@@ -22,12 +22,11 @@ export default class UserSignIn extends Component {
                      elements={() => (
                         <Fragment>
                           <input 
-                            id="username" 
-                            name="username" 
+                            id="emailAddress" 
+                            name="emailAddress" 
                             type="text"
-                            value={ username } 
                             onChange={ this.change } 
-                            placeholder="User Name" />
+                            placeholder="Email Address" />
                           <input 
                             id="password" 
                             name="password"
@@ -44,4 +43,20 @@ export default class UserSignIn extends Component {
             
         )
     }
+    submit = () => {
+        const { context } = this.props;
+        const {
+            emailAddress,
+            password
+        } = this.state
+
+        //user payload
+        const user = {
+            emailAddress,
+            password
+        }
+
+        
+    }
+
 }

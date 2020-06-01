@@ -18,6 +18,26 @@ export default class Data {
     return fetch(url, options)
    }
 
+   //USER
+   async getUser() {
+
+   }
+   async createUser(user) {
+    const response = await this.api(`/users`, 'POST', user);
+    //500 error if user already exists
+    if(response.status === 201) {
+        return []
+    } else if (response.status === 400) {
+        return response.json().then(data => {
+            return data
+        })
+    } else {
+        throw new Error()
+    }
+
+   }
+
+   //COURSES
    async getCourses() {
        const response = await this.api('/courses', 'GET');
        if (response.status === 200) {
@@ -28,13 +48,20 @@ export default class Data {
        }
    }
    async getOneCourse(id) {
-       console.log(id)
        const response = await this.api(`/courses/${id}`, 'GET');
        if (response.status === 200) {
            console.log(`200, got the course`);
            return response.json()
        } else {
            console.log(`course doesnt exist`)
+       }
+   }
+   async handleDelete(id) {
+       const response = await this.api(`/courses/${id}`, 'DELETE')
+       if (response.status === 204) {
+           console.log(`deleted`)
+       } else {
+           console.log(`forbidden`)
        }
    }
 }
