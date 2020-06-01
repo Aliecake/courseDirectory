@@ -25,11 +25,9 @@ export default class CourseDetail extends Component {
     }
 
     render() {
-
         return (
-
             this.state.course? <div>
-                <CourseCard course={this.state.course}/>
+                <CourseCard course={this.state.course} context={this.props}/>
                 </div> : <NotFound noCourse={true}/>
             
         )
