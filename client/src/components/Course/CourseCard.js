@@ -31,7 +31,7 @@ export default class CourseCard extends Component {
                         <p>added by username</p>
                     </div>
                     <div className="course--description">
-                        {/* {context.course.description} */}
+                        {course.description}
                     </div>
                 </div>
                 <div className="grid-25 grid-right">
