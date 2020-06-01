@@ -339,7 +339,7 @@ p {
 
 /* line 102, ../sass/global.sass */
 .course--module {
-  background: #1a4466;
+  background: rgb(57, 71, 88);;
   border-radius: 8px;
   padding: 30px;
   margin-bottom: 30px;
@@ -678,7 +678,7 @@ input:focus {
 
 /* line 507, ../sass/global.sass */
 .button {
-  background: #3e4e6b;
+  background: rgb(65, 63, 73);
   color: #fff;
   font-family: "Work Sans", sans-serif;
   font-size: 18px;
@@ -706,7 +706,7 @@ input:focus {
 
 /* line 525, ../sass/global.sass */
 .button-secondary {
-  color: #7c689b;
+  color: rgb(65, 63, 73);
   background: none;
   box-shadow: 0 0 0 2px #7c689b inset;
   -webkit-transition: box-shadow 0.2s, color 0.2s;
