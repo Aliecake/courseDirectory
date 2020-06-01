@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Nprogress from 'nprogress';
 // import Router from 'next/router';
 
@@ -7,10 +8,19 @@ Nprogress.start()
 Nprogress.done()
 
 
-const Header = () => (
+const Header = (props) => (
+  
   <div className="header">
     <div className="bounds">
       <h1 className="header--logo">Course Library</h1>
+      <nav>
+        <span>
+          Welcome 
+        </span>
+        <Link className="signup" to="/signup">Sign up</Link>
+        <Link className="signin" to="/signin">Sign in</Link>
+        <Link className="signout" to="/signout">Sign Out</Link>
+      </nav>
     </div>
   </div>
 )
