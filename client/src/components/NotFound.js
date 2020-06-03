@@ -9,7 +9,7 @@ const NotFound = props => {
                 <a href="/">Go Home</a>
             </Fragment> : 
             <Fragment>
-                <h1>404 Page Not Found</h1>
+                <h1>Sorry! We couldn't find what you're looking for!</h1>
                 <a href="/">Go Home</a>
             </Fragment>
     )
