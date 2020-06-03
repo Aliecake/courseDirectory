@@ -77,7 +77,9 @@ export default class UserSignIn extends Component {
                 if(user === null) {
                     this.setState({
                         errors: [
-                            {msg: 'Sign in unsuccessful'}
+                            {
+                                msg: 'Sign in unsuccessful'
+                            }
                         ]
                     })
                     console.log(this.state.errors)
