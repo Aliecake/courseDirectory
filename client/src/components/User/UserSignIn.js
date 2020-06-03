@@ -19,6 +19,9 @@ export default class UserSignIn extends Component {
                 <div>
                 <Form 
                     submitButtonText="Sign In"
+                    errors={errors}
+                    submit={ this.submit }
+                    cancel={ this.cancel }
                      elements={() => (
                         <Fragment>
                           <input 
@@ -43,6 +46,18 @@ export default class UserSignIn extends Component {
             
         )
     }
+
+    change = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        this.setState(() => {
+            return {
+                [name]: value
+            }
+        });
+        
+    }
     submit = () => {
         const { context } = this.props;
         const {
@@ -56,7 +71,28 @@ export default class UserSignIn extends Component {
             password
         }
 
-        
+        context.data.getUser(emailAddress, password)
+            .then(user => {
+                console.log(user)
+                if(user === null) {
+                    this.setState({
+                        errors: [
+                            {msg: 'Sign in unsuccessful'}
+                        ]
+                    })
+                    console.log(this.state.errors)
+                } else {
+                    this.props.history.push('/authenticated')
+                    console.log(`${emailAddress} signed in`)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                this.props.history.push('/error')
+            })
+    }
+    cancel = () => {
+        this.props.history.push('/')
     }
 
 }

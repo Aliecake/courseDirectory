@@ -21,7 +21,10 @@ export class Provider extends Component {
 
       const value = {
         authenticatedUser,
-        data: this.data
+        data: this.data,
+        actions: {
+          signIn: this.signIn
+        }
       };
       
       return (
@@ -31,8 +34,24 @@ export class Provider extends Component {
       );
     }
 
+    signIn = async (username, password) => {
+      const user = await this.data.getUser(username, password);
+
+      if(user !== null){
+        console.log(user)
+        this.setState(() => {
+
+          return {
+            authenticatedUser: user
+          }
+        })
+      }
+      return user
+    }
+
   }
-  
+
+
 export const Consumer = Context.Consumer;
   
   /**

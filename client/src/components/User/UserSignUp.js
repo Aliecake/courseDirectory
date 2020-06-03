@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import Form from './Form';
 
@@ -29,7 +29,7 @@ export default class UserSignUp extends Component {
                         submit={ this.submit }
                         submitButtonText="Sign Up"
                         elements={() => (
-                            <React.Fragment>
+                            <Fragment>
                               <input 
                                 id="firstName" 
                                 name="firstName" 
@@ -58,7 +58,7 @@ export default class UserSignUp extends Component {
                                 value={password} 
                                 onChange={this.change} 
                                 placeholder="Password" />
-                            </React.Fragment>
+                            </Fragment>
                           )}
                     />
                     <p>&nbsp;</p>
@@ -99,6 +99,7 @@ export default class UserSignUp extends Component {
         context.data.createUser(user)
         //need errors if user is already signed up
             .then(errors => {
+                console.log(errors)
                 if(errors.length){
                     this.setState({ errors })
                 } else {
