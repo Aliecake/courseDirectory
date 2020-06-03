@@ -13,11 +13,13 @@ import NotFound from './components/NotFound';
 import withContext from './Context';
 import UserSignUp from './components/User/UserSignUp';
 import UserSignIn from './components/User/UserSignIn';
+import Authenticated from './components/User/Authenticated'
 
 const HeaderWithContext = withContext(Header);
 const UserSignUpWithContext = withContext(UserSignUp);
 const UserSignInWithContext = withContext(UserSignIn);
 const CoursesWithContext = withContext(Courses);
+const AuthenticatedWithContext = withContext(Authenticated)
 const CourseDetailWithContext = withContext(CourseDetail);
 
 
@@ -31,6 +33,8 @@ export default () => (
 
         <Route path="/signup" component={ UserSignUpWithContext }/>
         <Route path="/signin" component={ UserSignInWithContext }/>
+
+        <Route path="/authenticated" component={ AuthenticatedWithContext }/>
         <Route path="*" component={ NotFound } />
       </Switch>
     </div>

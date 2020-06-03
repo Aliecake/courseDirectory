@@ -17,7 +17,7 @@ const Header = (props) => (
       <nav>
         {props.context.authenticatedUser ?
           <Fragment>
-            <span>Welcome {props.context.authenticatedUser.emailAddress}</span>
+            <span>Welcome PERSON</span>
           <Link className="signout" to="/signout">Sign Out</Link>
           </Fragment>
            : 

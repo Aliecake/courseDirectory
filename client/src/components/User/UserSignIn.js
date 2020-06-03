@@ -71,9 +71,9 @@ export default class UserSignIn extends Component {
             password
         }
 
-        context.data.getUser(emailAddress, password)
+        context.actions.signIn(emailAddress, password)
             .then(user => {
-                console.log(user)
+                
                 if(user === null) {
                     this.setState({
                         errors: [
@@ -89,7 +89,6 @@ export default class UserSignIn extends Component {
                 }
             })
             .catch(err => {
-                console.log(err)
                 this.props.history.push('/error')
             })
     }

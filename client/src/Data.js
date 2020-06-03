@@ -25,13 +25,12 @@ export default class Data {
 
    //USER
    async getUser(emailAddress, password) {
+       console.log(`GET USER CALLED`)
        const response = await this.api(`/users`, 'GET', null, true, {emailAddress, password});
        
        if(response.status === 200) {
-        console.log(response)
            return response.json().then(data => data)
        } else if (response.status === 401) {
-        console.log(response)
           return null
        } else {
            throw new Error()
