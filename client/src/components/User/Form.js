@@ -36,7 +36,7 @@ export default (props) => {
 function ErrorsDisplay({ errors }) {
   let errorsDisplay = null;
     //if errors.length?
-  if (errors) {
+  if (errors.length) {
     errorsDisplay = (
       <div>
         <h2 className="validation--errors--label">Validation errors</h2>
