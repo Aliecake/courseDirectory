@@ -1,7 +1,7 @@
 import config from './config';
 
 export default class Data {
-   api(path, method, body = null) {
+   api(path, method, body = null, requiresAuth = false, credentials = null) {
     const url = config.apiBaseUrl + path;
 
     const options = {
@@ -14,7 +14,12 @@ export default class Data {
     if (body !== null) {
         options.body = JSON.stringify(body)
     }
-    //requires auth
+    
+    if (requiresAuth) {
+        const encodedCredentials = btoa(`${credentials.emailAddress}:${credentials.password}`)
+
+        options.headers[`Authorization`] = `Basic ${encodedCredentials}`
+    }
     return fetch(url, options)
    }
 
