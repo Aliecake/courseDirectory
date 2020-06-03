@@ -14,14 +14,26 @@ export default class Data {
     if (body !== null) {
         options.body = JSON.stringify(body)
     }
-
+    //requires auth
     return fetch(url, options)
    }
 
    //USER
-   async getUser() {
-
+   async getUser(emailAddress, password) {
+       const response = await this.api(`/users`, 'GET', null, true, {emailAddress, password});
+       
+       if(response.status === 200) {
+        console.log(response)
+           return response.json().then(data => data)
+       } else if (response.status === 401) {
+        console.log(response)
+          return null
+       } else {
+           throw new Error()
+       }
    }
+
+
    async createUser(user) {
     const response = await this.api(`/users`, 'POST', user);
     //500 error if user already exists
