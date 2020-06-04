@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Redirect } from 'react-router-dom'
 
 export default ({ context  }) => {
   const authUser = context.authenticatedUser;
@@ -7,12 +8,10 @@ export default ({ context  }) => {
     <div className="grid-100">
         {authUser? 
             <Fragment>
-                 <h1> {authUser.firstName} is authenticated!</h1>
+                <h1> {authUser.firstName} is authenticated!</h1>
                 <p>Your username is {authUser.emailAddress}.</p>
             </Fragment> :
-            <Fragment>
-                You are not logged in, sign in or sign up
-            </Fragment>
+            <Redirect to="/signin" />
         }
     </div>
   </div>
