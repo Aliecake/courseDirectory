@@ -17,7 +17,7 @@ export default class CourseCard extends Component {
                         <span>
                             {/* update and delete for auth user only */}
                             <Link className="button" to="/update-course">Update Course</Link>
-                            <button className="button" onClick={() => context.data.handleDelete(course.id)}>Delete Course</button>
+                            <button className="button" onClick={() => context.data.handleDelete(course.id, context.authenticatedUser.emailAddress, context.authenticatedUser.password)}>Delete Course</button>
                             <Link className="button" to="/">Return to List</Link>
                         </span>
                     </div>
@@ -28,7 +28,7 @@ export default class CourseCard extends Component {
                     <div className="course--header">
                         <h4 className="course--label">Course</h4>
                         <h3 className="course--title">{course.title}</h3>
-                        <p>added by username</p>
+                        <p>added by {course.addedBy.firstName} {course.addedBy.lastName}</p>
                     </div>
                     <div className="course--description">
                         {course.description}
