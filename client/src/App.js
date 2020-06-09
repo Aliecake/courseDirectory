@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import './styles/App.css';
 import Header from './components/Header';
@@ -24,23 +20,21 @@ const CoursesWithContext = withContext(Courses);
 const AuthenticatedWithContext = withContext(Authenticated);
 const CourseDetailWithContext = withContext(CourseDetail);
 
-
 export default () => (
   <Router>
     <div>
       <HeaderWithContext />
       <Switch>
-        <Route exact path="/" component={ CoursesWithContext } />
-        <Route path="/courses/:id" component={ CourseDetailWithContext }/>
+        <Route exact path="/" component={CoursesWithContext} />
+        <Route path="/courses/:id" component={CourseDetailWithContext} />
 
-        <Route path="/signup" component={ UserSignUpWithContext }/>
-        <Route path="/signin" component={ UserSignInWithContext }/>
-        <Route path="/signout" component={ UserSignOutWithContext }/>
+        <Route path="/signup" component={UserSignUpWithContext} />
+        <Route path="/signin" component={UserSignInWithContext} />
+        <Route path="/signout" component={UserSignOutWithContext} />
 
-        <Route path="/authenticated" component={ AuthenticatedWithContext }/>
-        <Route path="*" component={ NotFound } />
+        <Route path="/authenticated" component={AuthenticatedWithContext} />
+        <Route path="*" component={NotFound} />
       </Switch>
     </div>
   </Router>
 );
-

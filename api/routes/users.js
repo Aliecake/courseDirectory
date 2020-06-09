@@ -14,6 +14,7 @@ const router = express.Router();
  * GET /api/users 200 - Returns the currently authenticated user - Auth through middleware
  */
 router.get('/users', middleware.authenticateUser, middleware.asyncHandler(async(req, res) => {
+    
     const currentUser = req.currentUser;
     //scope from models, strips info
     const user = await User.scope('withoutPassword', 'withoutTimestamps').findOne({
@@ -21,7 +22,7 @@ router.get('/users', middleware.authenticateUser, middleware.asyncHandler(async(
             emailAddress: currentUser.emailAddress
         }
     });
-
+    
     res.status(200).json({
         user: user
     })

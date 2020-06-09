@@ -2,21 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles/index.css';
 import './styles/global.css';
-import './styles/nprogress.css'
+import './styles/nprogress.css';
 import App from './App';
 import { Provider } from './Context';
 
-
 import * as serviceWorker from './serviceWorker';
 
-
-//wrap app in provider for context
+// wrap app in provider for context
 ReactDOM.render(
   <React.StrictMode>
     <Provider>
       <App />
     </Provider>
-    
   </React.StrictMode>,
   document.getElementById('root')
 );
