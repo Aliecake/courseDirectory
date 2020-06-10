@@ -19,9 +19,12 @@ const middleware = {}
   }
   /** Handler function to check user authentication*/
   middleware.authenticateUser = async(req, res, next) => {
+
+    console.log(req)
     let message = null;
     let user = null;
     //parsed from Auth header
+
     var credentials = auth(req)
 
     if (credentials) {
