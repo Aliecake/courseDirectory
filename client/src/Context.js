@@ -8,7 +8,7 @@ const Context = React.createContext();
 // provider component
 export class Provider extends Component {
   state = {
-    authenticatedUser: Cookies.getJSON('authenticatedUser') || null
+    authenticatedUser: Cookies.getJSON('authenticatedUser') || null,
   };
 
   constructor() {
@@ -29,24 +29,25 @@ export class Provider extends Component {
     };
 
     return (
-      <Context.Provider value={value}>
-        {this.props.children}
-      </Context.Provider>
+      <Context.Provider value={value}>{this.props.children}</Context.Provider>
     );
   }
 
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
-    console.log(`SIGN IN CALLED`);
     if (user !== null) {
+      console.log(user)
       this.setState(() => ({
         authenticatedUser: user.user,
       }));
       Cookies.set('authenticatedUser', JSON.stringify(user), {
-        expires: 1
+        expires: 1,
       });
+      //not ideal, storing hashed password to cookies.
+      Cookies.set('password', JSON.stringify(btoa(password)), {
+        expires: 1
+      })
     }
-    console.log(user);
     return user.user;
   };
 
@@ -55,6 +56,7 @@ export class Provider extends Component {
       authenticatedUser: null,
     });
     Cookies.remove('authenticatedUser');
+    Cookies.remove('password')
   };
 }
 

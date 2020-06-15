@@ -1,4 +1,5 @@
 import config from './config';
+import Cookies from 'js-cookie';
 
 export default class Data {
   api(path, method, body = null, requiresAuth = false, credentials = null) {
@@ -71,11 +72,14 @@ export default class Data {
     console.log(`course doesnt exist`);
   }
 
-  async handleDelete(id, emailAddress, password) {
-    // PW undefined
+  async handleDelete(id, emailAddress) {
+    //get hashed password from cookies, and pass it. Not ideal, would prefer to use passport or similar.
+    const hashPassword = Cookies.get('password')
+    const password = atob(JSON.parse(hashPassword));
+   
     const response = await this.api(`/courses/${id}`, 'DELETE', null, true, {
       emailAddress,
-      password,
+      password
     });
     console.log(response.status);
     if (response.status === 204) {
