@@ -72,6 +72,33 @@ export default class Data {
     console.log(`course doesnt exist`);
   }
 
+  async createCourse(course) {
+    
+    //Cookies parsed to JSON
+    let emailAddress = null;
+    let password = null;
+
+
+    //only auth users can add a course
+    if(Cookies.get('authenticatedUser')) {
+      const user = JSON.parse(Cookies.get('authenticatedUser'));
+      const hashPassword = Cookies.get('password');
+      emailAddress = user.user.emailAddress
+      password = atob(JSON.parse(hashPassword));
+    }
+
+    const response = await this.api(`/courses`, 'POST', course, true, {emailAddress, password})
+    
+    if(response.status === 201) {
+      console.log(`course added`);
+    } else {
+      return [{
+        msg: 'Access Denied, Sign up or login'
+      }]
+      
+    }
+  }
+
   async handleDelete(id, emailAddress) {
     //get hashed password from cookies, and pass it. Not ideal, would prefer to use passport or similar.
     const hashPassword = Cookies.get('password')
@@ -85,7 +112,11 @@ export default class Data {
     if (response.status === 204) {
       console.log(`deleted`);
     } else {
-      console.log(`forbidden`);
+      console.log(response.status, `forbidden`);
+      return [{
+        msg: 'You are not authorized to delete that course.'
+      }]
+      
     }
   }
 }
