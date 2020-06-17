@@ -124,7 +124,6 @@ export default class CreateCourse extends Component {
           console.log(`errors in create`, errors)
           this.setState({ errors });
         } else {
-          console.log(this.props)
           this.props.history.push('/');
         }
       })
