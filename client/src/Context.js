@@ -48,7 +48,7 @@ export class Provider extends Component {
         expires: 1
       })
     }
-    return user.user;
+    return user;
   };
 
   signOut = () => {
