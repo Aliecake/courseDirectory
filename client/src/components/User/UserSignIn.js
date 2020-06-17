@@ -10,7 +10,7 @@ export default class UserSignIn extends Component {
   };
 
   render() {
-    const { username, password, errors } = this.state;
+    const { emailAddress, password, errors } = this.state;
     return (
       <Fragment>
         <div>
@@ -71,23 +71,17 @@ export default class UserSignIn extends Component {
     context.actions
       .signIn(emailAddress, password)
       .then(user => {
-        if (user === null) {
+          if(user === null) {
           this.setState({
-            errors: [
-              {
-                msg: 'Sign in unsuccessful',
-              },
-            ],
+            errors: [{
+              msg: 'Fields for Email & Password cannot be blank'
+            }]
           });
-          console.log(this.state.errors);
         } else {
           this.props.history.push('/');
           console.log(`${emailAddress} signed in`);
         }
       })
-      .catch(err => {
-        this.props.history.push('/error');
-      });
   };
 
   cancel = () => {
