@@ -22,10 +22,16 @@ router.get('/users', middleware.authenticateUser, middleware.asyncHandler(async(
             emailAddress: currentUser.emailAddress
         }
     });
-    
-    res.status(200).json({
-        user: user
-    })
+    if(user) {
+        res.status(200).json({
+            user: user
+        })
+    } else {
+        res.status(401).json({
+            message: 'Access Denied'
+        })
+    }
+
 }));
 /**
  * POST /api/users 201 - Creates a user, sets the Location header to "/", and returns no content
