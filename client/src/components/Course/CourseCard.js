@@ -30,7 +30,7 @@ export default class CourseCard extends Component {
                 {/* only the actual course owner should see this button, update by checking API */}
                 {context.authenticatedUser ? (
                   <Fragment>
-                    <Link className="button" to="/update-course">
+                    <Link className="button" to={`/courses/${course.id}/update`}>
                       Update Course
                     </Link>
 
@@ -94,11 +94,12 @@ export default class CourseCard extends Component {
                 <li className="course--stats--list--item">
                   <h4>Materials needed</h4>
                   <ul>
-                    {/* replace first asterisk, and remove all other asterisks if there are any */}
+                    {/* remove first asterisk, and replace all other trailing newline asterisks if there are any */}
                     {course.materialsNeeded
                       ? course.materialsNeeded
                           .replace("*", "")
-                          .split('\n*')
+                          .replace(/\n\*/g, ",")
+                          .split(',')
                           .map((item, i) => <li key={i}>{item}</li>)
                       : ''}
                   </ul>
