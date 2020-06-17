@@ -90,6 +90,7 @@ router.put('/courses/:id', validation.course, middleware.authenticateUser, middl
 /**DELETE /api/courses/:id 204 - Deletes a course and returns no content */
 router.delete('/courses/:id', middleware.authenticateUser, middleware.asyncHandler(async(req, res) => {
     const currentUser = req.currentUser;
+    console.log(currentUser)
     const course = await Course.findByPk(req.params.id)
 
     //only addedBy associated user can delete course
