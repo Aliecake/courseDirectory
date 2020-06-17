@@ -18,16 +18,16 @@ export default class CourseCard extends Component {
     if (Cookies.get('authenticatedUser')) {
       user = JSON.parse(Cookies.get('authenticatedUser'))
     }
-    
+
     return (
       <Fragment>
         <div className="actions--bar">
           <div className="bounds">
             <div className="grid 100">
+              {/* Uses cookies instead of context, so will delete on reload */}
               <span>
-                {/* Uses cookies instead of context, so will delete on reload */}
-                
-                {context.authenticatedUser.user.id === course.addedBy.id ? (
+                {/* check if there is an auth user, and if so make sure they match whom added course*/}
+                {context.authenticatedUser && context.authenticatedUser.id === course.addedBy.id ? (
                   <Fragment>
                     <Link className="button" to={`/courses/${course.id}/update`}>
                       Update Course
