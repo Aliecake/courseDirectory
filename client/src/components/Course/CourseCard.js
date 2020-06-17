@@ -17,9 +17,8 @@ export default class CourseCard extends Component {
     //without the if, a CORs origin error happens upon a guest viewing the course card.
     if (Cookies.get('authenticatedUser')) {
       user = JSON.parse(Cookies.get('authenticatedUser'))
-    } 
+    }
     
-
     return (
       <Fragment>
         <div className="actions--bar">
@@ -27,8 +26,8 @@ export default class CourseCard extends Component {
             <div className="grid 100">
               <span>
                 {/* Uses cookies instead of context, so will delete on reload */}
-                {/* only the actual course owner should see this button, update by checking API */}
-                {context.authenticatedUser ? (
+                
+                {context.authenticatedUser.user.id === course.addedBy.id ? (
                   <Fragment>
                     <Link className="button" to={`/courses/${course.id}/update`}>
                       Update Course
