@@ -1,10 +1,24 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import ErrorsDisplay from '../ErrorsDisplay';
 
 export default class CourseCard extends Component {
+
+  state = {
+    errors: []
+  }
+
   render() {
     const { course } = this.props;
     const { context } = this.props.context;
+
+    let user;
+    //without the if, a CORs origin error happens upon a guest viewing the course card.
+    if (Cookies.get('authenticatedUser')) {
+      user = JSON.parse(Cookies.get('authenticatedUser'))
+    } 
+    
 
     return (
       <Fragment>
@@ -12,26 +26,49 @@ export default class CourseCard extends Component {
           <div className="bounds">
             <div className="grid 100">
               <span>
-                {/* update and delete for auth user only */}
-                <Link className="button" to="/update-course">
-                  Update Course
-                </Link>
-                
-                <button
-                  className="button"
-                  onClick={() =>
-                    context.data.handleDelete(
-                      course.id,
-                      context.authenticatedUser.emailAddress,
-                      context.authenticatedUser.password
-                    )
-                  }
-                >
-                  Delete Course
-                </button>
-                <Link className="button" to="/">
-                  Return to List
-                </Link>
+                {/* Uses cookies instead of context, so will delete on reload */}
+                {/* only the actual course owner should see this button, update by checking API */}
+                {context.authenticatedUser ? (
+                  <Fragment>
+                    <Link className="button" to="/update-course">
+                      Update Course
+                    </Link>
+
+                    <button
+                      className="button"
+                      onClick={() =>
+                        context.data.handleDelete(
+                          course.id,
+                          user.user.emailAddress,
+                          user.user.password
+                        )
+                        .then(errors => {
+                          if (errors){
+                            this.setState({
+                              errors: errors
+                            })
+                          } else {
+                            this.props.context.history.push('/')
+                          }
+                        })
+                      }
+                    >
+                      {' '}
+                      Delete Course
+                    </button>
+                    <Link className="button" to="/">
+                      Return to List
+                    </Link>
+                    {/* added redundant display of validation errors */}
+                    <ErrorsDisplay errors={this.state.errors} />
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <Link className="button" to="/">
+                      Return to List
+                    </Link>
+                  </Fragment>
+                )}
               </span>
             </div>
           </div>
@@ -49,17 +86,19 @@ export default class CourseCard extends Component {
           </div>
           <div className="grid-25 grid-right">
             <div className="course--stats">
-              <ul className="course--stats-list">
+              <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated time</h4>
-                  <h3>{course.estimatedTime}</h3>
+                  <h3 className="course--time--input">{course.estimatedTime}</h3>
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials needed</h4>
                   <ul>
+                    {/* replace first asterisk, and remove all other asterisks if there are any */}
                     {course.materialsNeeded
                       ? course.materialsNeeded
-                          .split('\n')
+                          .replace("*", "")
+                          .split('\n*')
                           .map((item, i) => <li key={i}>{item}</li>)
                       : ''}
                   </ul>
