@@ -25,11 +25,13 @@ const Header = props => (
 
       <nav>
         {/* if user is in context, or cookies, display */}
-        {props.context.authenticatedUser || user ? (
+        {/* used cookies user name since context seems to be lost on refresh*/}
+        {/* sometimes after signing out, this fires true when false? */}
+        {props.context.authenticatedUser ? (
           
           <Fragment>
             
-            <span>Welcome {props.context.authenticatedUser.firstName || user.user.firstName} !</span>
+            <span>Welcome { props.context.authenticatedUser.firstName || user.user.firstName } !</span>
             <Link className="addCourse" to="/create-course">Add Course</Link>
             <Link className="signout" to="/signout">
               Sign Out
