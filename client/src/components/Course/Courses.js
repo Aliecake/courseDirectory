@@ -12,7 +12,7 @@ export default class Courses extends Component {
     const courses = await context.data.getCourses();
     if (courses) {
       this.setState({
-        courses: courses.message,
+        courses: courses.msg,
       });
     } else {
       console.log(`no courses found`);

@@ -92,12 +92,35 @@ export default class Data {
     if(response.status === 201) {
       console.log(`course added`);
     } else {
-      return [{
-        msg: 'Access Denied, Sign up or login'
-      }]
-      
+      return response.json().then(data => data)
     }
   }
+
+  
+  async updateCourse(course) {
+    
+    //Cookies parsed to JSON
+    let emailAddress = null;
+    let password = null;
+
+
+    //only auth users can add a course
+    if(Cookies.get('authenticatedUser')) {
+      const user = JSON.parse(Cookies.get('authenticatedUser'));
+      const hashPassword = Cookies.get('password');
+      emailAddress = user.user.emailAddress
+      password = atob(JSON.parse(hashPassword));
+    }
+    console.log(course)
+    const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {emailAddress, password})
+    
+    if(response.status === 201) {
+      console.log(`course updated`);
+    }  else {
+      return response.json().then(data => data);
+    }
+  }
+
 
   async handleDelete(id, emailAddress) {
     //get hashed password from cookies, and pass it. Not ideal, would prefer to use passport or similar.
@@ -113,9 +136,7 @@ export default class Data {
       console.log(`deleted`);
     } else {
       console.log(response.status, `forbidden`);
-      return [{
-        msg: 'You are not authorized to delete that course.'
-      }]
+      return response.json().then(data => data);
       
     }
   }

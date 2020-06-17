@@ -21,7 +21,7 @@ router.get('/courses', middleware.asyncHandler(async(req, res) => {
     })
 
     res.status(200).json({
-        message: courses
+        msg: courses
     })
 }));
 
@@ -40,7 +40,7 @@ router.get('/courses/:id', middleware.asyncHandler(async(req, res) => {
         })
     } else {
         res.status(400).json({
-            message: `Course does not exist`
+            msg: `Course does not exist`
         })
     }
 
@@ -81,7 +81,7 @@ router.put('/courses/:id', validation.course, middleware.authenticateUser, middl
             res.status(204).end()
         } else {
             res.status(403).json({
-                message: `Error 403 forbidden`
+                msg: `Error 403 forbidden`
             })
         }
     }
@@ -99,7 +99,7 @@ router.delete('/courses/:id', middleware.authenticateUser, middleware.asyncHandl
         res.status(204).end()
     } else {
         res.status(403).json({
-            message: `Error 403 forbidden`
+            msg: `Error 403 forbidden`
         })
     }
 
