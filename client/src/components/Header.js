@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import Nprogress from 'nprogress';
 // import Router from 'next/router';
 
@@ -7,7 +8,15 @@ import Nprogress from 'nprogress';
 Nprogress.start();
 Nprogress.done();
 
+//get user from cookies, so works on refreshes
+let user = null;
+
+if (Cookies.get('authenticatedUser')) {
+  user = JSON.parse(Cookies.get('authenticatedUser'))
+}
+
 const Header = props => (
+
   <div className="header">
     <div className="bounds">
       <Link to="/">
@@ -15,16 +24,20 @@ const Header = props => (
       </Link>
 
       <nav>
-        {props.context.authenticatedUser ? (
+        {/* if user is in context, or cookies, display */}
+        {props.context.authenticatedUser || user ? (
+          
           <Fragment>
-            <span>Welcome {props.context.authenticatedUser.firstName} !</span>
+            
+            <span>Welcome {props.context.authenticatedUser.firstName || user.user.firstName} !</span>
+            <Link className="addCourse" to="/create-course">Add Course</Link>
             <Link className="signout" to="/signout">
               Sign Out
             </Link>
           </Fragment>
         ) : (
           <Fragment>
-            <span>Welcome, </span>
+            <span>Welcome, Guest</span>
             <Link className="signup" to="/signup">
               Sign up
             </Link>
