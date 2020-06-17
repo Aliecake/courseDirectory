@@ -81,7 +81,7 @@ export default class UserSignIn extends Component {
           });
           console.log(this.state.errors);
         } else {
-          this.props.history.push('/authenticated');
+          this.props.history.push('/');
           console.log(`${emailAddress} signed in`);
         }
       })
