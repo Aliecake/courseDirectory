@@ -1,21 +1,25 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Form from '../Form';
 
 export default class UpdateCourse extends Component {
   state = {
-    title: '',
-    description: '',
-    estimatedTime: '',
-    materialsNeeded: '',
     errors: [],
   };
 
   render() {
-    const { title, description, errors, estimatedTime, materialsNeeded } = this.state;
+    const { errors } = this.state;
+    let course;
+    // define course and check if state is available prevents undefined errors before redirect
+    if(this.props.location.state) {
+      course = this.props.location.state.course
+    }
 
     return (
-      <div className="bounds course--detail">
+      <Fragment>
+        {/* if state exists, load the form. If not forward to not found */}
+        {this.props.location.state? (
+          <div className="bounds course--detail">
         
           <h1>Update Course</h1>
           <Form
@@ -34,9 +38,8 @@ export default class UpdateCourse extends Component {
                         id="title"
                         name="title"
                         type="text"
-                        value={title}
+                        value={course.title || ''}
                         onChange={this.change}
-                        placeholder="Course Title..."
                       />
                     </div>
                     <p>By username</p>
@@ -47,9 +50,8 @@ export default class UpdateCourse extends Component {
                       name="description"
                       type="text"
                       className=""
-                      value={description}
+                      value={course.description}
                       onChange={this.change}
-                      placeholder="Course Description..."
                     />
                   </div>
                 </div>
@@ -57,15 +59,15 @@ export default class UpdateCourse extends Component {
                   <div className="course--stats">
                     <ul className="course--stats--list">
                       <li className="course--stats--list--item">
+                        {/* OR statement on time & materials allows there to be some prompt in the inputs */}
                         <h4>Estimated Time</h4>
                         <input
                           id="estimatedTime"
                           name="estimatedTime"
                           className="course--time--input"
                           type="text"
-                          value={estimatedTime}
+                          value={course.estimatedTime || 'Hours'}
                           onChange={this.change}
-                          placeholder="Hours"
                         />
                       </li>
                       <li className="course--stats--list--item">
@@ -75,9 +77,8 @@ export default class UpdateCourse extends Component {
                           name="materialsNeeded"
                           type="text"
                           className=""
-                          value={materialsNeeded}
+                          value={course.materialsNeeded || 'Materials Needed'}
                           onChange={this.change}
-                          placeholder="Materials Needed..."
                         />
                       </li>
                     </ul>
@@ -93,6 +94,11 @@ export default class UpdateCourse extends Component {
             sign in or <Link to="/signup">Sign up</Link>
           </p>
         </div>
+        ) : (
+          <Redirect to="/notfound" />
+        )}
+      </Fragment>
+      
     );
   }
 
@@ -108,6 +114,7 @@ export default class UpdateCourse extends Component {
   submit = () => {
     const { context } = this.props;
     const { title, description, materialsNeeded, estimatedTime } = this.state;
+    const { from } = this.props.location.state || {from: {pathname: '/'}}
 
     // user payload
     const course = {
@@ -127,7 +134,7 @@ export default class UpdateCourse extends Component {
           console.log(this.state.errors)
         } else {
           console.log(this.props)
-          this.props.history.push('/');
+          this.props.history.push(from);
         }
       })
       .catch(err => {
@@ -136,6 +143,6 @@ export default class UpdateCourse extends Component {
   };
 
   cancel = () => {
-    this.props.history.push(`/`);
+    this.props.history.push('/');
   };
 }
