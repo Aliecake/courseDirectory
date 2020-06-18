@@ -16,8 +16,6 @@ export default class CourseDetail extends Component {
       this.setState({
         course: course.course,
       });
-    } else {
-      //
     }
   }
 
