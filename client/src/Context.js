@@ -49,8 +49,9 @@ export class Provider extends Component {
       Cookies.set('password', JSON.stringify(btoa(password)), {
         expires: 1
       })
+      return user;
     }
-    return user;
+    return null
   };
 
   signOut = () => {

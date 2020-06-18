@@ -4,13 +4,11 @@ import Form from '../Form';
 
 export default class UserSignIn extends Component {
   state = {
-    emailAddress: '',
-    password: '',
     errors: [],
   };
 
   render() {
-    const { emailAddress, password, errors } = this.state;
+    const { errors } = this.state;
     return (
       <Fragment>
         <div>
@@ -32,7 +30,6 @@ export default class UserSignIn extends Component {
                   id="password"
                   name="password"
                   type="password"
-                  value={password}
                   onChange={this.change}
                   placeholder="Password"
                 />
@@ -60,25 +57,20 @@ export default class UserSignIn extends Component {
 
   submit = () => {
     const { context } = this.props;
+    const { from } = this.props.location.state || {from: {pathname: '/'}}
     const { emailAddress, password } = this.state;
-
-    // user payload
-    const user = {
-      emailAddress,
-      password,
-    };
 
     context.actions
       .signIn(emailAddress, password)
       .then(user => {
           if(user === null) {
           this.setState({
-            errors: [{
-              msg: 'Fields for Email & Password cannot be blank'
+            errors : [{
+              msg: 'Sign in unsuccessful'
             }]
           });
         } else {
-          this.props.history.push('/');
+          this.props.history.push(from);
           console.log(`${emailAddress} signed in`);
         }
       })
