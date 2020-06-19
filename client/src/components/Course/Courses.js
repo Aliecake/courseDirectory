@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import ls from 'local-storage';
 
 export default class Courses extends Component {
   state = {
@@ -14,6 +15,11 @@ export default class Courses extends Component {
       this.setState({
         courses: courses.msg,
       });
+      //set courses to local storage
+      for(let course in courses.msg){
+
+        ls.set(courses.msg[course].id, JSON.stringify(courses.msg[course]))
+      }
     } else {
       console.log(`no courses found`);
     }
@@ -36,7 +42,7 @@ export default class Courses extends Component {
             </div>
           ))}
           <div className="grid-33">
-            <Link className="course--module course--add--module" to="/create-course">
+            <Link className="course--module course--add--module" to="/courses/create">
               <h3 className="course--add-title add">+ New Course</h3>
             </Link>
           </div>
