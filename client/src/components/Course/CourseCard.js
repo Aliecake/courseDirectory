@@ -26,17 +26,16 @@ export default class CourseCard extends Component {
         <div className="actions--bar">
           <div className="bounds">
             <div className="grid 100">
-              {/* Uses cookies instead of context, so will delete on reload */}
               <span>
-                {/* check if there is an auth user in either context or cookies, and if so make sure they match whom added course*/}
-                {(context.authenticatedUser || user) && context.authenticatedUser.id === course.addedBy.id ? (
+                {/* check if there is an auth user in either context, and if so make sure they match whom added course*/}
+                {context.authenticatedUser && context.authenticatedUser.user.id === course.addedBy.id ? (
                   <Fragment>
                     <Link className="button" to={{
                       pathname:`/courses/${course.id}/update`, state: {course}
                       }} >
                       Update Course
                     </Link>
-
+                      {/* to successfully delete, we need the password, hence cookies. Not ideal, I would use passport or something similar  */}
                     <button
                       className="button"
                       onClick={() =>
