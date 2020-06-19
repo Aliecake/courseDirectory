@@ -40,7 +40,7 @@ export class Provider extends Component {
     if (user !== null) {
 
       this.setState(() => ({
-        authenticatedUser: user.user,
+        authenticatedUser: user,
       }));
       Cookies.set('authenticatedUser', JSON.stringify(user), {
         expires: 1,
