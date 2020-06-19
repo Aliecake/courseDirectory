@@ -59,7 +59,8 @@ export default class Data {
     const response = await this.api('/courses', 'GET');
     if (response.status === 200) {
       console.log(`200 OK - got courses`);
-      return response.json();
+      const res = response.json()
+      return res;
     }
     console.log(`no courses`);
   }
@@ -111,10 +112,10 @@ export default class Data {
       emailAddress = user.user.emailAddress
       password = atob(JSON.parse(hashPassword));
     }
-    console.log(course)
+
     const response = await this.api(`/courses/${course.id}`, 'PUT', course, true, {emailAddress, password})
-    
-    if(response.status === 201) {
+
+    if(response.status === 204) {
       console.log(`course updated`);
     }  else {
       return response.json().then(data => data);
