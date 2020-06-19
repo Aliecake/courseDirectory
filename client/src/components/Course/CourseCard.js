@@ -31,7 +31,7 @@ export default class CourseCard extends Component {
                 {context.authenticatedUser && context.authenticatedUser.user.id === course.addedBy.id ? (
                   <Fragment>
                     <Link className="button" to={{
-                      pathname:`/courses/${course.id}/update`, state: {course}
+                      pathname:`/courses/${course.id}/update`, state: {course, from: `/courses/${course.id}`}
                       }} >
                       Update Course
                     </Link>
