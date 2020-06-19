@@ -1,5 +1,6 @@
 import config from './config';
 import Cookies from 'js-cookie';
+import ls from 'local-storage';
 
 export default class Data {
   api(path, method, body = null, requiresAuth = false, credentials = null) {
@@ -91,6 +92,7 @@ export default class Data {
     const response = await this.api(`/courses`, 'POST', course, true, {emailAddress, password})
     
     if(response.status === 201) {
+      console.log(response)
       console.log(`course added`);
     } else {
       return response.json().then(data => data)
@@ -134,6 +136,8 @@ export default class Data {
     });
     console.log(response.status);
     if (response.status === 204) {
+      //remove from local storage
+      ls.remove(id)
       console.log(`deleted`);
     } else {
       console.log(response.status, `forbidden`);
