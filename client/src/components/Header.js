@@ -8,13 +8,6 @@ import Nprogress from 'nprogress';
 Nprogress.start();
 Nprogress.done();
 
-//get user from cookies, so works on refreshes
-let user;
-
-if (Cookies.get('authenticatedUser')) {
-  user = JSON.parse(Cookies.get('authenticatedUser'))
-}
-
 const Header = props => (
   
   <div className="header">
@@ -24,14 +17,12 @@ const Header = props => (
       </Link>
 
       <nav>
-        {/* if user is in context, or cookies, display */}
-        {/* used cookies user name since context seems to be lost on refresh*/}
-        {/* For some reason, user comes back true sometimes when signing out ?? */}
-        {(props.context.authenticatedUser && props.context.authenticatedUser.firstName) || user ? (
+        {/* if user is in context, display */}
+        {props.context.authenticatedUser ? (
           
           <Fragment>
             
-            <span>Welcome {(props.context.authenticatedUser.firstName)} !</span>
+            <span>Welcome {(props.context.authenticatedUser.user.firstName)} !</span>
             <Link className="addCourse" to="/create-course">Add Course</Link>
             <Link className="signout" to="/signout">
               Sign Out
