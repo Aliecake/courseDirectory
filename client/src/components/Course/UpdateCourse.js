@@ -1,26 +1,47 @@
 import React, { Component, Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import Form from '../Form';
+import ls from 'local-storage';
+
+
 
 export default class UpdateCourse extends Component {
+
   state = {
+    id: '',
+    title: '',
+    description: '',
+    estimatedTime: '',
+    materialsNeeded: '',
+    addedBy: '',
     errors: [],
   };
 
+  //by using local storage, an error will not happen if a user self directs to /update via URL bar and setting state with props.location.state
+  componentWillMount() {
+    let storedCourse = ls.get(this.props.match.params.id)
+    let parsedCourse = JSON.parse(storedCourse)
+    let creatorID = parsedCourse.addedBy.id
+
+    this.setState({
+      id: parsedCourse.id,
+      title: parsedCourse.title,
+      description: parsedCourse.description,
+      estimatedTime: parsedCourse.estimatedTime,
+      materialsNeeded: parsedCourse.materialsNeeded,
+      addedBy: creatorID
+    })
+  }
+
   render() {
     const { errors } = this.state;
-    let course;
-    // define course and check if state is available prevents undefined errors before redirect
-    if(this.props.location.state) {
-      course = this.props.location.state.course
-    }
 
     return (
       <Fragment>
         {/* if state exists, load the form. If not forward to not found */}
-        {this.props.location.state? (
+        {this.props.location.state && this.props.context.authenticatedUser.user.id === this.state.addedBy ? (
           <div className="bounds course--detail">
-        
+
           <h1>Update Course</h1>
           <Form
             cancel={this.cancel}
@@ -38,7 +59,7 @@ export default class UpdateCourse extends Component {
                         id="title"
                         name="title"
                         type="text"
-                        value={course.title || ''}
+                        value={this.state.title}
                         onChange={this.change}
                       />
                     </div>
@@ -50,7 +71,7 @@ export default class UpdateCourse extends Component {
                       name="description"
                       type="text"
                       className=""
-                      value={course.description}
+                      value={this.state.description}
                       onChange={this.change}
                     />
                   </div>
@@ -66,7 +87,7 @@ export default class UpdateCourse extends Component {
                           name="estimatedTime"
                           className="course--time--input"
                           type="text"
-                          value={course.estimatedTime || 'Hours'}
+                          value={this.state.estimatedTime}
                           onChange={this.change}
                         />
                       </li>
@@ -77,7 +98,7 @@ export default class UpdateCourse extends Component {
                           name="materialsNeeded"
                           type="text"
                           className=""
-                          value={course.materialsNeeded || 'Materials Needed'}
+                          value={this.state.materialsNeeded}
                           onChange={this.change}
                         />
                       </li>
@@ -95,7 +116,8 @@ export default class UpdateCourse extends Component {
           </p>
         </div>
         ) : (
-          <Redirect to="/notfound" />
+          // further logic for auth user vs not found
+          <Redirect to="/forbidden" />
         )}
       </Fragment>
       
@@ -113,11 +135,12 @@ export default class UpdateCourse extends Component {
 
   submit = () => {
     const { context } = this.props;
-    const { title, description, materialsNeeded, estimatedTime } = this.state;
+    const { id, title, description, materialsNeeded, estimatedTime } = this.state;
     const { from } = this.props.location.state || {from: {pathname: '/'}}
 
     // user payload
     const course = {
+      id,
       title,
       description,
       materialsNeeded,
@@ -133,16 +156,17 @@ export default class UpdateCourse extends Component {
           });
           console.log(this.state.errors)
         } else {
-          console.log(this.props)
+          console.log(this.props.history.location)
           this.props.history.push(from);
         }
       })
       .catch(err => {
-        console.log(`catch block in create`, err)
+        console.log(`catch block in update`, err)
       })
   };
 
   cancel = () => {
-    this.props.history.push('/');
+    const { from } = this.props.location.state || {from: {pathname: '/'}}
+    this.props.history.push(from);
   };
 }
