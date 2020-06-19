@@ -22,7 +22,7 @@ const Header = props => (
           
           <Fragment>
             
-            <span>Welcome {(props.context.authenticatedUser.user.firstName)} !</span>
+            <span>Welcome {props.context.authenticatedUser.user.firstName} {props.context.authenticatedUser.user.lastName} !</span>
             <Link className="addCourse" to="/create-course">Add Course</Link>
             <Link className="signout" to="/signout">
               Sign Out
