@@ -14,6 +14,7 @@ import CreateCourse from './components/Course/CreateCourse';
 import UpdateCourse from './components/Course/UpdateCourse'
 import PrivateRoute from './components/PrivateRoute';
 import Forbidden from './components/Forbidden';
+import UnhandledError from './components/UnhandledError';
 
 
 
@@ -42,6 +43,7 @@ export default () => (
         <Route path="/signout" component={UserSignOutWithContext} />
 
         <Route path="/forbidden" component={Forbidden} />
+        <Route path="/error" component={UnhandledError} />
         <Route path="*" component={NotFound} />
       </Switch>
     </div>
