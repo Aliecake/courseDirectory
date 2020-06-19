@@ -13,6 +13,7 @@ import UserSignOut from './components/User/UserSignOut';
 import CreateCourse from './components/Course/CreateCourse';
 import UpdateCourse from './components/Course/UpdateCourse'
 import PrivateRoute from './components/PrivateRoute';
+import Forbidden from './components/Forbidden';
 
 
 
@@ -31,15 +32,16 @@ export default () => (
       <HeaderWithContext />
       <Switch>
         <Route exact path="/" component={CoursesWithContext} />
+        
+        <PrivateRoute exact path="/courses/create" component={CreateCourseWithContext} />
         <Route exact path="/courses/:id" component={CourseDetailWithContext} />
-
-        <PrivateRoute exact path="/create-course" component={CreateCourseWithContext} />
         <PrivateRoute exact path="/courses/:id/update" component={UpdateCourseWithContext} />
 
         <Route path="/signup" component={UserSignUpWithContext} />
         <Route path="/signin" component={UserSignInWithContext} />
         <Route path="/signout" component={UserSignOutWithContext} />
 
+        <Route path="/forbidden" component={Forbidden} />
         <Route path="*" component={NotFound} />
       </Switch>
     </div>
