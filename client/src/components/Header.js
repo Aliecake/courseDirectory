@@ -9,7 +9,6 @@ Nprogress.start();
 Nprogress.done();
 
 const Header = props => (
-  
   <div className="header">
     <div className="bounds">
       <Link to="/">
@@ -19,11 +18,14 @@ const Header = props => (
       <nav>
         {/* if user is in context, display */}
         {props.context.authenticatedUser ? (
-          
           <Fragment>
-            
-            <span>Welcome {props.context.authenticatedUser.user.firstName} {props.context.authenticatedUser.user.lastName} !</span>
-            <Link className="addCourse" to="/create-course">Add Course</Link>
+            <span>
+              Welcome {props.context.authenticatedUser.user.firstName}{' '}
+              {props.context.authenticatedUser.user.lastName} !
+            </span>
+            <Link className="addCourse" to="/courses/create">
+              Add Course
+            </Link>
             <Link className="signout" to="/signout">
               Sign Out
             </Link>
