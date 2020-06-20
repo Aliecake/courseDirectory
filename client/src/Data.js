@@ -161,6 +161,5 @@ export default class Data {
       //500 internal
       throw new Error();
     }
-
   }
 }

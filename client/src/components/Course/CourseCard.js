@@ -6,19 +6,18 @@ import Cookies from 'js-cookie';
 import ErrorsDisplay from '../ErrorsDisplay';
 
 export default class CourseCard extends Component {
-
   state = {
-    errors: []
-  }
+    errors: [],
+  };
 
   render() {
     const { course } = this.props;
     const { context } = this.props.context;
 
     let user;
-    //without the if, a CORs origin error happens upon a guest viewing the course card.
+    // without the if, a CORs origin error happens upon a guest viewing the course card.
     if (Cookies.get('authenticatedUser')) {
-      user = JSON.parse(Cookies.get('authenticatedUser'))
+      user = JSON.parse(Cookies.get('authenticatedUser'));
     }
 
     return (
@@ -27,32 +26,38 @@ export default class CourseCard extends Component {
           <div className="bounds">
             <div className="grid 100">
               <span>
-                {/* check if there is an auth user in either context, and if so make sure they match whom added course*/}
-                {context.authenticatedUser && context.authenticatedUser.user.id === course.addedBy.id ? (
+                {/* check if there is an auth user in either context, and if so make sure they match whom added course */}
+                {context.authenticatedUser &&
+                context.authenticatedUser.user.id === course.addedBy.id ? (
                   <Fragment>
-                    <Link className="button" to={{
-                      pathname:`/courses/${course.id}/update`, state: {course, from: `/courses/${course.id}`}
-                      }} >
+                    <Link
+                      className="button"
+                      to={{
+                        pathname: `/courses/${course.id}/update`,
+                        state: { course, from: `/courses/${course.id}` },
+                      }}
+                    >
                       Update Course
                     </Link>
-                      {/* to successfully delete, we need the password, hence cookies. Not ideal, I would use passport or something similar  */}
+                    {/* to successfully delete, we need the password, hence cookies. Not ideal, I would use passport or something similar  */}
                     <button
                       className="button"
                       onClick={() =>
-                        context.data.handleDelete(
-                          course.id,
-                          user.user.emailAddress,
-                          user.user.password
-                        )
-                        .then(errors => {
-                          if (errors){
-                            this.setState({
-                              errors: errors
-                            })
-                          } else {
-                            this.props.context.history.push('/')
-                          }
-                        })
+                        context.data
+                          .handleDelete(
+                            course.id,
+                            user.user.emailAddress,
+                            user.user.password
+                          )
+                          .then(errors => {
+                            if (errors) {
+                              this.setState({
+                                errors,
+                              });
+                            } else {
+                              this.props.context.history.push('/');
+                            }
+                          })
                       }
                     >
                       {' '}
@@ -91,14 +96,14 @@ export default class CourseCard extends Component {
               <ul className="course--stats--list">
                 <li className="course--stats--list--item">
                   <h4>Estimated time</h4>
-                  <h3 className="course--time--input">{course.estimatedTime}</h3>
+                  <h3 className="course--time--input">
+                    {course.estimatedTime}
+                  </h3>
                 </li>
                 <li className="course--stats--list--item">
                   <h4>Materials needed</h4>
                   <ul>
-                    <ReactMarkdown>
-                      {course.materialsNeeded}
-                    </ReactMarkdown>
+                    <ReactMarkdown>{course.materialsNeeded}</ReactMarkdown>
                   </ul>
                 </li>
               </ul>
