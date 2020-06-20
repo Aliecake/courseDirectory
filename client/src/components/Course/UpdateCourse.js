@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import Form from '../Form';
 import ls from 'local-storage';
-
-
+import Form from '../Form';
 
 export default class UpdateCourse extends Component {
-
   state = {
     id: '',
     title: '',
@@ -15,48 +12,47 @@ export default class UpdateCourse extends Component {
     materialsNeeded: '',
     addedBy: '',
     errors: [],
-    redirect: false
+    redirect: false,
   };
 
-  //by using local storage, an error will not happen if a user self directs to /update via URL bar and setting state with props.location.state
+  // by using local storage, an error will not happen if a user self directs to /update via URL bar and setting state with props.location.state
   componentWillMount() {
-    //get the course, if it doesnt return set state for redirect
-    let storedCourse = ls.get(this.props.match.params.id)
+    // get the course, if it doesnt return set state for redirect
+    const storedCourse = ls.get(this.props.match.params.id);
 
     if (!storedCourse) {
       this.setState({
-        redirect: true
-      })
+        redirect: true,
+      });
     } else {
+      const parsedCourse = JSON.parse(storedCourse);
+      const creatorID = parsedCourse.addedBy.id;
 
-      let parsedCourse = JSON.parse(storedCourse)
-      let creatorID = parsedCourse.addedBy.id
-  
       this.setState({
         id: parsedCourse.id,
         title: parsedCourse.title,
         description: parsedCourse.description,
         estimatedTime: parsedCourse.estimatedTime,
         materialsNeeded: parsedCourse.materialsNeeded,
-        addedBy: creatorID
-      })
+        addedBy: creatorID,
+      });
     }
   }
 
   render() {
     const { errors } = this.state;
 
-    //redirect if no course exists
-    if (this.state.redirect){
-      return <Redirect to="/notfound" />
-    } else {
+    // redirect if no course exists
+    if (this.state.redirect) {
+      return <Redirect to="/notfound" />;
+    }
 
-      return (
-        <Fragment>
-          {/* if state exists, load the form. If not forward to not found */}
-          {this.props.location.state && this.props.context.authenticatedUser.user.id === this.state.addedBy ? (
-            <div className="bounds course--detail">
-  
+    return (
+      <Fragment>
+        {/* if state exists, load the form. If not forward to not found */}
+        {this.props.location.state &&
+        this.props.context.authenticatedUser.user.id === this.state.addedBy ? (
+          <div className="bounds course--detail">
             <h1>Update Course</h1>
             <Form
               cancel={this.cancel}
@@ -120,25 +116,22 @@ export default class UpdateCourse extends Component {
                       </ul>
                     </div>
                   </div>
-                 
                 </Fragment>
               )}
             />
             <p>&nbsp;</p>
             <p>
-              Only members can add courses... <Link to="/signin">Click here</Link> to
-              sign in or <Link to="/signup">Sign up</Link>
+              Only members can add courses...{' '}
+              <Link to="/signin">Click here</Link> to sign in or{' '}
+              <Link to="/signup">Sign up</Link>
             </p>
           </div>
-          ) : (
-            // further logic for auth user vs not found
-            <Redirect to="/forbidden" />
-          )}
-        </Fragment>
-        
-      );
-    }
-    
+        ) : (
+          // further logic for auth user vs not found
+          <Redirect to="/forbidden" />
+        )}
+      </Fragment>
+    );
   }
 
   change = e => {
@@ -152,8 +145,14 @@ export default class UpdateCourse extends Component {
 
   submit = () => {
     const { context } = this.props;
-    const { id, title, description, materialsNeeded, estimatedTime } = this.state;
-    const { from } = this.props.location.state || {from: {pathname: '/'}}
+    const {
+      id,
+      title,
+      description,
+      materialsNeeded,
+      estimatedTime,
+    } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
 
     // user payload
     const course = {
@@ -169,20 +168,21 @@ export default class UpdateCourse extends Component {
       .then(errors => {
         if (errors) {
           this.setState({
-            errors
+            errors,
           });
-          console.log(this.state.errors)
+          console.log(this.state.errors);
         } else {
           this.props.history.push(from);
         }
       })
       .catch(err => {
-        console.log(`catch block in update`, err)
-      })
+        console.log(`catch block in update`, err);
+        this.props.history.push('/error')
+      });
   };
 
   cancel = () => {
-    const { from } = this.props.location.state || {from: {pathname: '/'}}
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     this.props.history.push(from);
   };
 }
