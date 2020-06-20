@@ -34,24 +34,22 @@ export class Provider extends Component {
   }
 
   signIn = async (username, password) => {
-
     const user = await this.data.getUser(username, password);
 
     if (user !== null) {
-
       this.setState(() => ({
         authenticatedUser: user,
       }));
       Cookies.set('authenticatedUser', JSON.stringify(user), {
         expires: 1,
       });
-      //not ideal, storing hashed password to cookies.
+      // not ideal, storing hashed password to cookies.
       Cookies.set('password', JSON.stringify(btoa(password)), {
-        expires: 1
-      })
+        expires: 1,
+      });
       return user;
     }
-    return null
+    return null;
   };
 
   signOut = () => {
@@ -59,7 +57,7 @@ export class Provider extends Component {
       authenticatedUser: null,
     });
     Cookies.remove('authenticatedUser');
-    Cookies.remove('password')
+    Cookies.remove('password');
   };
 }
 
