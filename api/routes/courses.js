@@ -102,7 +102,7 @@ router.delete('/courses/:id', middleware.authenticateUser, middleware.asyncHandl
             msg: `Error 403 forbidden`
         })
     }
-
+  
 }));
 
 module.exports = router;
